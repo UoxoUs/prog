@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="js/jquery-2.1.3.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>じゃんけん</title>
+<style>
+
+.start{
+      background: #fff;
+      position: fixed;
+      top: 0;
+      left: 0; 
+      height: 100%;
+      width:100%;
+      z-index: 9000;
+      
+}
+.start p{
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      display: none;
+      z-index: 9999;
+      width:280px;
+}
+
+body{  
+
+      margin: 0;
+      border-top: 30px solid#ec7fa0;
+      border-bottom: 30px solid#ec7fa0;
+      background : #fff;
+      font-family:fantasy;
+       
+       
+}
+
+li.img{
+/* ここを設定した時は画面の大きさに合わせて画像の大きさも変わってましたが、最後見たら元に戻ってました🥲 */
+      width : 100%;
+
+}
+
+li{
+      background-color: #fff;
+}
+
+li.active{
+
+      background-color: rgb(142, 137, 137);
+}
+
+h1{
+
+      color:#ef4b7c ;
+}
+h2{
+
+      color:#ef4b7c ;
+}
+h3{
+      font-size : 20px;
+}
+
+
+</style>
+</head>
+<body>
+  <!-- 最初にグーを出したかったけど出来ませんでした。 -->
+  <div class = "start">
+    <p><img src = "janken_gu.png" alt=""></p>
+  </div>
+<header>
+  <h1>じゃんけん</h1>
+  <h2>どれかクリックしてね！</h2>
+  <h3>グレーが選択したものだよ！</h3>
+</header>
+
+<main>
+  <ul>
+    <div>あなた：</div>
+    <li id="gu_btn"><img src = "janken_gu.png"></li>
+    <li id="cho_btn"><img src = "janken_choki.png"></li>
+    <li id="par_btn"><img src = "janken_pa.png"></li>
+  </ul>
+  <div>コンピュータ:<span id="pc_hands"></span></div>
+  <div id="judgment" style="text-align:center"></div>
+</main>
+
+<footer></footer>
+<script>
+//じゃんけん用のSCRIPT
+
+$(function(){
+  setTimeout(function(){
+    $('.start p').fadeIN(1600);
+     }, 300);//0.3秒後にフェイドインする
+     setTimeout(function(){
+      $('.start').fadeOut(300);//0.3秒後にフェイドアウト
+     },1500);
+});
+
+// グーを押したとき
+
+$("#gu_btn").on("click",function(){
+  const num = Math.ceil(Math.random()*3);
+  //ボタンを押したら色が変わる
+  var btn = $('li');
+  btn.removeClass('active');
+  $(this).addClass('active');
+
+    if (num == 1){
+      $("#pc_hands").html('<img src="janken_gu.png">');
+      $("#judgment").html("あいこ😊");
+      
+    }
+    else if (num == 2){
+      $("#pc_hands").html('<img src="janken_choki.png">');
+      $("#judgment").html("あなたの勝ち🥳");
+      
+    }
+    else if (num == 3){
+      $("#pc_hands").html('<img src="janken_pa.png">');
+      $("#judgment").html("あなたの負け😢");
+    }
+})
+
+  // チョキを押したとき
+
+$("#cho_btn").on("click",function(){
+  const num = Math.ceil(Math.random()*3);
+  var btn = $('li');
+  btn.removeClass('active');
+  $(this).addClass('active');
+
+    if (num == 1){
+      $("#pc_hands").html('<img src="janken_choki.png">');
+      $("#judgment").html("あいこ😊");
+    }
+    else if (num == 2){
+      $("#pc_hands").html('<img src="janken_pa.png">');
+      $("#judgment").html("あなたの勝ち🥳");
+    }
+    else if (num == 3){
+      $("#pc_hands").html('<img src="janken_gu.png">');
+      $("#judgment").html("あなたの負け😢");
+    }
+})
+
+  // パーを押したとき
+$("#par_btn").on("click",function(){
+  const num = Math.ceil(Math.random()*3);
+  var btn = $('li');
+  btn.removeClass('active');
+  $(this).addClass('active');
+
+    if (num == 1){
+      $("#pc_hands").html('<img src="janken_pa.png">');
+      $("#judgment").html("あいこ😊");
+    }
+    else if (num == 2){
+      $("#pc_hands").html('<img src="janken_gu.png">');
+      $("#judgment").html("あなたの勝ち🥳");
+    }
+    else if (num == 3){
+      $("#pc_hands").html('<img src="janken_choki.png">');
+      $("#judgment").html("あなたの負け😢");
+    }
+})
+
+  //各ジャンケンのボタンに対する結果を作る。もし、グーボタンをクリックして、チョキがでたら、勝ちと表示をする。
+    
+    
+    
+    
+    
+    
+
+</script>
+</body>
+</html>
