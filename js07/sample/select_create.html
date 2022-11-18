@@ -1,0 +1,215 @@
+<!-- セレクトボックスで日付を設定してうタイトルに日付を表示させ、メモできるよにしたかったのですが、うまくできませんでした。 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>セレクトボックスを関数化！！</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    body{
+        margin:0;
+        padding:0;
+        text-align:left;
+        font-size: 32px;
+        width:100%;
+    }
+    header{
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+    }
+    h1{
+        font-size: 100%;
+        text-align: center;
+    }
+    main{
+        width:100%;
+        display: block;
+        border-bottom:1px solid #ccc;
+        position:relative;
+    }
+    footer{
+        background-color: #fff;
+        border-bottom:1px solid #ccc;
+        text-align: center;
+    }
+    p{
+        font-size:200%;
+        text-align: center;
+        border-bottom:1px solid #fff;
+        height:200px;
+    }
+    ul{
+        padding: 0;
+        border-top: 1px solid #000000;
+        display:table;  /* 定義 */
+        table-layout: fixed;
+        width:96%;
+        font-size: 80%;
+        margin: 0 3%;
+        text-align: center;
+    }
+    li{
+        list-style-type:none;
+        border: 1px solid #666;
+        background-color: #fff;
+        display:table-cell;  /* 定義 */
+        cursor: pointer;
+    
+    }
+    #save{
+        color:#325bd8;
+    }
+    #clear{
+        color:#d83d32;
+    }
+    li:hover{
+        background: #a8ccf6;
+        color:#fff;
+    }
+    textarea{
+        margin: 10px 3%;
+        width: 95%;
+        height: 100px;
+        font-size:80%;
+        box-shadow: 3px 3px 3px 3px #555;
+        background-color:rgb(241, 239, 239);
+    }
+    #key{
+        margin:0 3%;
+        width: 95%;
+        font-size:80%;
+        background-color: #e1efff;
+        box-shadow: 3px 3px 3px 3px #555;
+    }
+    table{
+        margin: 20px 3%;
+        background-color:rgb(241, 239, 239);
+        border:1px solid #8dc3f5;
+        width:96%;
+    }
+    th{
+        width:30%;
+        font-size:40px;
+        text-align: center;
+        background-color:#d0e7fc;
+        border-bottom: 1px solid #8dc3f5;
+    }
+    td em{
+        font-size:35px;
+        border-bottom: 1px solid #8dc3f5;
+    } 
+
+</style>
+<body>
+    <table border="1" >
+    <tr>
+        <td width="10" height="10" bgcolor="#febbae" onclick="document.bgColor = '#febbae';"></td>
+        <td width="10" height="10" bgcolor="#f5c78a" onclick="document.bgColor = '#f5c78a';"></td>
+        <td width="10" height="10" bgcolor="#f6fabd" onclick="document.bgColor = '#f6fabd';"></td>
+    </tr>
+    <tr>
+        <td width="10" height="10" bgcolor="#cffabd" onclick="document.bgColor = '#cffabd';"></td>     
+        <td width="10" height="10" bgcolor="#bdeffa" onclick="document.bgColor = '#bdeffa';"></td>
+        <td width="10" height="10" bgcolor="#bdd0fa" onclick="document.bgColor = '#bdd0fa';"></td>
+    </tr>
+    <tr>
+        <td width="10" height="10" bgcolor="#c3bdfa" onclick="document.bgColor = '#c3bdfa';"></td>
+        <td width="10" height="10" bgcolor="ffffff" onclick="document.bgColor = 'ffffff';"></td>
+        <td width="10" height="10" bgcolor="#cccccc" onclick="document.bgColor = '#cccccc';"></td>
+    </tr>
+    </table>
+<header>
+    <h1>~Memo~</h1>
+</header>
+<main>
+    <h6>決定押したらタイトルのところに日付が入るようにしたかったのですがうまくできませんでした。</h6>
+    <!-- セレクトボックス作成[START] -->
+    <form name="ti">
+        <select id="year"></select>
+        <select id="month"></select>
+        <select id="date"></select>
+    </form>
+    <!-- セレクトボックス作成[END] -->
+    <!-- 決定ボタンを作る -->
+    <input type="button" value="決定" onclick="Kettei()"/>
+    <!-- keyは決定を押したときの日にちを入れる -->
+    <span>
+        <input type="text" id="key">
+    </span>
+
+    <textarea id="memo"></textarea>
+    <ul>
+        <li id="save">Save</li>
+        <li id="clear">Clear</li>
+    </ul>
+        
+</main>
+<table id="list">
+    
+</table>
+
+<script>
+
+    function ymd(start,end,id){
+        let y = ""; 
+        for(let i=start; i<=end; i++){//startからendまで1ずつ増える
+            y += '<option value="'+i+'">'+i+'</option>';
+        }
+        $(id).html(y);//どこかのidにいれる
+        
+        }
+
+    ymd(1900, 2025, "#year");//yearに入れるもの
+    ymd(1, 12, "#month")//monthにいれるもの
+    ymd(1, 31, "#date")//dateに入れるもの
+
+
+//yearのセレクトボックスの内容を保存
+    function Kettei(){//決定を押したら
+        const ye = document.year;//yearのドキュメントを取得
+        const num = year.ymd().selectedIndex;
+        // 値(数値)から値(value値)を取得
+        const str = ye.options[num].value;
+        document.getElementById("key").textContent = str; 
+    }
+
+
+//クリックしたら保存
+    $("#save").on("click",function(){
+        const key = $("#key").val();//タイトル
+        const value = $("#memo").val();//メモ
+        // const batu = $("#batu").val();
+        localStorage.setItem(key, value)
+        const html = '<tr><em><th>'+key+'</h><td>'+value+'</em></tr>';
+        $("#list").append(html);
+    });
+
+
+
+
+//クリックでclear 
+    $("#clear").on("click",function(){
+        localStorage.clear();
+        $("#list").empty();
+    });
+
+
+
+
+//ページ読み込み：保存データ取得表示
+
+    for(let i=0; i<localStorage.length; i++){//localStorageが終わるまで
+        const key = localStorage.key(i);//key名をとってくる
+        const value = localStorage.getItem(key);//value
+        //一覧表示
+        const html = '<tr><em><th>'+key+'</th><td>'+value+'</em></td></tr>';//メモしたもの
+        $("#list").append(html);
+    }
+
+
+</script>
+</body>
+</html>

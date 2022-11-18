@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1></h1>
+
+<script>
+    //足し算
+   function tasu(e,f){
+        const he = e + f;
+        return he;
+    }
+
+    const a = tasu(10,10);
+    console.log(a);
+
+    //引き算
+    function hiku(e,f){
+        const he = e - f;
+        return he;
+    }
+
+    const b = hiku(20,30);
+    console.log(b);
+
+    //掛け算
+    function kake(e,f){
+        const he = e * f;
+        return he;
+    }
+
+    const c = kake(40,50);
+    console.log(c);
+
+    //割り算
+    function wari(e,f){
+        const he = e / f;
+        return he;
+    }
+
+    const d = wari(20,5); 
+    console.log(d);
+    
+    const he = a + b + c + d;
+    
+document.querySelector("h1").innerHTML = he;
+</script>
+</body>
+</html>
