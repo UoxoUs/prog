@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Firebase:v9:Chatアプリ</title>
+</head>
+<style>
+#output{
+    background-color: rgb(182, 211, 254);
+}
+#text{
+    background-color: rgb(234, 234, 234);
+}
+#uname{
+    background-color: rgb(234, 234, 234);
+}
+#send{
+    background-color: rgb(71, 130, 232);
+    color: rgb(255,255,255);
+}
+#msg{
+    background-color: rgb(164, 240, 161);
+}
+</style>
+<body>
+
+<!-- コンテンツ表示画面 -->
+
+<div>
+    <div id="output" style="overflow:auto; height:300px;"></div>
+    
+    
+        <div> 名前：<input type="text" id="uname"> </div>
+        <div>
+            <textarea id="text" cols="180" rows="1"></textarea>
+            <button id="send">送信</button>
+        </div>
+   
+    <!-- 映る画面は300pxでスクロールができる -->
+</div>   
+
+
+<!--/ コンテンツ表示画面 -->
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- JQuery -->
+
+
+<!--** 以下Firebase **-->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved } 
+    from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAy_6fl_sl3wItKlE0Mt2WeNFXfES18RAg",
+      authDomain: "sample-8fd5a.firebaseapp.com",
+      projectId: "sample-8fd5a",
+      storageBucket: "sample-8fd5a.appspot.com",
+      messagingSenderId: "292982148213",
+      appId: "1:292982148213:web:b46ccf6817be5eeead3c3c"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);//キーを持って実行(ファイヤーベースに接続)
+    const db = getDatabase(app);//リアルタイムデータベースに接続
+    const dbRef = ref(db,"chat");//chatにデータを流しこむ
+
+    $("#send").on("click",function(){//sendをクリックしたら
+        const zikan = (document.innerHTML = Time());//Timeの内容の読み込みと書き込み
+        function Time(){//日時取得
+
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;  //月は必ず +１をする！
+            var date = now.getDate();
+            var day = now.getDay();  //曜日[0=日曜日,1=月曜日...]
+            var h = now.getHours();
+            var m = now.getMinutes();
+            
+
+            if (day==0){
+                day="日";
+            }else if(day==1){
+                day="月";
+            }else if(day==2){
+                day="火";
+            }else if(day==3){
+                day="水";
+            }else if(day==4){
+                day="木";
+            }else if(day==5){
+                day="金";
+            }else{
+                day="土";
+            }
+            var zikan = year + "." + month + "/" + date + "(" + day + ")" + h + ":" + m ;
+            return zikan;
+        }
+
+        const msg ={
+            uname : $("#uname").val(),//unameの値をとってくる
+            text : $("#text").val(),
+            toki : zikan//zikanをそのまま取り出す
+        }
+
+        const newPostRef = push(dbRef);//どこにデータを入れたいか。ユニークキーを生成
+        set(newPostRef,msg);
+
+    });
+    onChildAdded(dbRef,function(data){
+        const msg = data.val();
+        const key = data.key;//ユニークキー
+        let w = '<p>';
+            w += msg.uname;
+            w += '<br>';
+            w += msg.text;
+            // w += '<br>';
+            w += msg.toki;
+            w += '</p>';
+            $("#output").append(w);
+    });//リアルタイムのチャットを監視
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
