@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="css/sample.css">
+<title>クイズ練習（複数）</title>
+</head>
+<style>
+
+</style>
+<body>
+
+<header>
+    <h1>クイズ</h1>
+    <h2 id="suu"></h2>
+
+</header>
+
+<main>
+  <p id="quest">ここに問題が出題されます</p>
+  <p id="kotae">
+    <input type="radio" name="toi" value="1"><span id="toi1">選択肢１</span>
+    <input type="radio" name="toi" value="2"><span id="toi2">選択肢２</span>
+    <input type="radio" name="toi" value="3"><span id="toi3">選択肢３</span>
+  </p>
+</main>
+<h2 id="results"></h2>
+<h3 id="kekka"></h3>
+<footer></footer>
+<script>
+//ここから記述領域［START］
+
+  //以下に配列を記述してください。
+  //問題文[配列]
+  const qs=[
+    "通るときには閉まって、通らないときには開いているものは何？",
+    "話すことがとても好きな道具は何？",
+    "世界の真ん中にいる虫は何？",
+    "海、山、家の中でトドがいない場所はどこ？",
+    "お金を借りたときの手数料がめちゃくちゃ高そうな職業は何？",
+    "浜＝33　海＝22　芝＝15　猿＝◯◯?",
+    "や→山　し→式　に→日　そ→□　□に入る漢字は何？"
+  ]
+    
+  //回答選択肢[多重配列]
+  const toi =[
+
+    ["踏み切り","洗濯機","冷蔵庫"],
+    ["スプーン","シャベル","しゃもじ"],
+    ["てんとう虫","カマキリ","蚊"],
+    ["海","山","家の中"],
+    ["銀行員","調理師","警察官"],
+    ["31","33","13"],
+    ["こ","り","と"]
+  ]
+    
+  //答え[配列]
+  const ans = [1,2,3,3,2,1,1];
+
+  //スコアの初期化
+  let score = 0;
+
+  
+
+  //1.最初の問題文＆回答選択肢＆回答値を設定
+  let i = 0; //constだと上書きできない。
+    $("#quest").text( qs[i] );
+    $("#toi1").text(toi[i][0]);
+    $("#toi2").text(toi[i][1]);
+    $("#toi3").text(toi[i][2]);
+    $("#suu").text("第"+(i+1)+"問");
+
+  //2.ラジオボタンをクリックしたらイベント発生！(クリックイベント)
+  $("[name=toi]").on("click",function(){
+    const v = $(this).val();//このイベントの値=#size
+    if(ans[i] == v){//anser排列の何番目かの値を拾ってvと比較
+      $("h1").text("正解！");
+      score++;
+      // ke+=v
+    }else{
+      $("h1").text("不正解！");
+      // ke+=v
+    }
+    if(i<=5){
+      i++;//配列に入れるiが１+される。
+      $("#quest").text( qs[i] );
+      $("#toi1").text(toi[i][0]);//選択肢
+      $("#toi2").text(toi[i][1]);
+      $("#toi3").text(toi[i][2]);
+      $("#suu").text("第"+(i+1)+"問");
+    }else if(i==6){
+      $("#quest").text( qs[i] );
+      $("#toi1").text(toi[i][0]);//選択肢
+      $("#toi2").text(toi[i][1]);
+      $("#toi3").text(toi[i][2]);
+      $("#suu").text("第"+(i+1)+"問");
+      alert("終了");
+      // $("kekka").append(ke);
+      $("#results").append("7問中"+score+"問正解！");
+      // localStorage.setItem("results", score);
+    }
+  });
+
+
+
+
+
+
+
+//ここまでが記述領域［END］
+</script>
+</body>
+</html>
